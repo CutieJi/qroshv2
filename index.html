@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRLens — Professional QR Code Generator & Scanner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Glow Blobs -->
+    <div class="bg-glow blob-1" aria-hidden="true"></div>
+    <div class="bg-glow blob-2" aria-hidden="true"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="badge-pill">
+                <span class="badge-dot"></span>
+                <span>Instant &amp; Secure QR Suite</span>
+            </div>
+            <div class="logo">
+                <span class="logo-mark" aria-hidden="true">
+                    <span class="logo-corner tl"></span>
+                    <span class="logo-corner tr"></span>
+                    <span class="logo-corner bl"></span>
+                    <span class="logo-corner br"></span>
+                </span>
+                <span class="logo-text">QRLens</span>
+            </div>
+            <p class="tagline">Generate crisp, customizable QR codes or scan instantly from your camera and images.</p>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="tool-section" aria-label="QR code tools">
+            <div class="tab-switch" role="tablist" aria-label="Choose tool">
+                <button class="tab-btn is-active" id="tab-generate" role="tab" aria-selected="true"
+                    aria-controls="panel-generate" data-tab="generate">
+                    <svg class="tab-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path
+                            d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h3v3h-3zM18 18h3v3h-3zM15 18h3v3h-3zM18 15h3v3h-3z" />
+                    </svg>
+                    <span>Generate</span>
+                </button>
+                <button class="tab-btn" id="tab-scan" role="tab" aria-selected="false" aria-controls="panel-scan"
+                    data-tab="scan">
+                    <svg class="tab-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                        <circle cx="12" cy="13" r="4" />
+                    </svg>
+                    <span>Scan</span>
+                </button>
+                <span class="tab-indicator" aria-hidden="true"></span>
+            </div>
+
+            <!-- GENERATE PANEL -->
+            <div class="tool-panel" id="panel-generate" role="tabpanel" aria-labelledby="tab-generate">
+                <div class="panel-grid">
+                    <div class="control-col">
+                        <div class="field-group">
+                            <label for="qr-text">
+                                <span>Content or Web Link</span>
+                                <span class="label-hint">Required</span>
+                            </label>
+                            <textarea id="qr-text" rows="4"
+                                placeholder="Paste URL (e.g. https://example.com), WiFi details, contact info, or plain text..."></textarea>
+                        </div>
+
+                        <div class="option-row">
+                            <div class="option-field">
+                                <label for="qr-size">Resolution</label>
+                                <div class="select-wrapper">
+                                    <select id="qr-size">
+                                        <option value="200">Small — 200 × 200 px</option>
+                                        <option value="300" selected>Medium — 300 × 300 px</option>
+                                        <option value="420">Large — 420 × 420 px</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="option-field">
+                                <label for="qr-color">Foreground Color</label>
+                                <div class="color-picker-wrapper">
+                                    <input type="color" id="qr-color" value="#0b0d12">
+                                    <span class="color-val-label" id="color-val-label">#0b0d12</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="generate-btn" class="btn-primary" type="button">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path d="M12 5v14M5 12h14" />
+                            </svg>
+                            <span>Generate QR Code</span>
+                        </button>
+                        <p class="hint-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                            100% Client-side generation — your data never leaves your browser.
+                        </p>
+                    </div>
+
+                    <div class="viewfinder-col">
+                        <div class="viewfinder" id="generate-viewfinder">
+                            <span class="corner tl"></span><span class="corner tr"></span>
+                            <span class="corner bl"></span><span class="corner br"></span>
+                            <div id="qr-output" class="qr-output">
+                                <div class="empty-state">
+                                    <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="1.5">
+                                        <rect x="3" y="3" width="7" height="7" />
+                                        <rect x="14" y="3" width="7" height="7" />
+                                        <rect x="14" y="14" width="7" height="7" />
+                                        <rect x="3" y="14" width="7" height="7" />
+                                    </svg>
+                                    <p class="placeholder-text">Your QR code will be rendered here</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="download-btn" class="btn-secondary" type="button" hidden>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            <span>Download PNG</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCAN PANEL -->
+            <div class="tool-panel" id="panel-scan" role="tabpanel" aria-labelledby="tab-scan" hidden>
+                <div class="panel-grid">
+                    <div class="viewfinder-col">
+                        <div class="viewfinder" id="scan-viewfinder">
+                            <span class="corner tl"></span><span class="corner tr"></span>
+                            <span class="corner bl"></span><span class="corner br"></span>
+                            <div id="scan-reader"></div>
+                            <div class="scan-line" id="scan-line" hidden></div>
+                            <div class="empty-state" id="scan-placeholder">
+                                <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="1.5">
+                                    <path
+                                        d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                                <p class="placeholder-text">Start camera or upload an image file</p>
+                            </div>
+                        </div>
+                        <div class="scan-controls">
+                            <button id="start-scan-btn" class="btn-primary" type="button">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                                <span>Start camera</span>
+                            </button>
+                            <button id="stop-scan-btn" class="btn-secondary btn-danger-soft" type="button" hidden>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                </svg>
+                                <span>Stop camera</span>
+                            </button>
+                            <label class="btn-secondary upload-label">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="17 8 12 3 7 8" />
+                                    <line x1="12" y1="3" x2="12" y2="15" />
+                                </svg>
+                                <span>Upload image</span>
+                                <input type="file" id="scan-file-input" accept="image/*" hidden>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-col">
+                        <div class="result-header-row">
+                            <h3 class="result-heading">Decoded Content</h3>
+                            <span class="status-badge" id="scan-status-badge">Awaiting scan</span>
+                        </div>
+                        <div id="scan-result" class="scan-result-box">
+                            <p class="placeholder-text">Scan a QR code to decode its payload here</p>
+                        </div>
+                        <div class="result-actions" id="result-actions" hidden>
+                            <button id="copy-result-btn" class="btn-secondary" type="button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                                <span>Copy text</span>
+                            </button>
+                            <a id="open-result-link" class="btn-primary" target="_blank" rel="noopener" hidden>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                                <span>Open Link</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RATING SECTION -->
+        <section class="rating-section" aria-label="Rate QRLens">
+            <div class="rating-header">
+                <div class="rating-heading-text">
+                    <h2>Community Feedback</h2>
+                    <p>Share your experience and leave a rating for QRLens.</p>
+                </div>
+                <div class="average-display">
+                    <span class="corner tl"></span><span class="corner br"></span>
+                    <span class="average-number" id="average-number">–</span>
+                    <div class="average-meta">
+                        <span class="average-stars" id="average-stars" aria-hidden="true">★★★★★</span>
+                        <span id="rating-count" class="rating-count-text">No ratings yet</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="firebase-warning" class="firebase-warning" hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <span>Ratings aren't connected yet — configure your settings in <code>firebase-config.js</code>.</span>
+            </div>
+
+            <form id="rating-form" class="rating-form" autocomplete="off">
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="rate-name">Your Name</label>
+                        <input type="text" id="rate-name" placeholder="e.g. Alex Rivera" maxlength="60" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="rate-email">Gmail Address</label>
+                        <input type="email" id="rate-email" placeholder="you@gmail.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label id="star-picker-label">Your Rating Score</label>
+                    <div class="star-picker-container">
+                        <div class="star-picker" id="star-picker" role="radiogroup" aria-labelledby="star-picker-label">
+                            <button type="button" class="star" data-value="1" aria-label="1 star">★</button>
+                            <button type="button" class="star" data-value="2" aria-label="2 stars">★</button>
+                            <button type="button" class="star" data-value="3" aria-label="3 stars">★</button>
+                            <button type="button" class="star" data-value="4" aria-label="4 stars">★</button>
+                            <button type="button" class="star" data-value="5" aria-label="5 stars">★</button>
+                        </div>
+                        <span class="star-hint-badge" id="star-hint-badge">Select a rating</span>
+                    </div>
+                </div>
+                <p class="form-error" id="form-error" role="alert" hidden></p>
+                <button type="submit" class="btn-primary" id="submit-rating-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                    <span>Submit Rating</span>
+                </button>
+            </form>
+
+            <div class="ratings-container">
+                <h3 class="ratings-list-title">Recent Community Reviews</h3>
+                <div class="ratings-list" id="ratings-list">
+                    <p class="placeholder-text">No ratings yet — be the first to rate!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p>QRLens — Crafted with Firebase Firestore &amp; EmailJS Integration.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
