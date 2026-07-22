@@ -240,28 +240,28 @@ const averageStarsEl = document.getElementById("average-stars");
 const ratingCountEl = document.getElementById("rating-count");
 
 let selectedStars = 0;
-const starLabels = ["Poor", "Fair", "Good", "Great!", "Excellent! 🎉"];
+const starLabels = ["Poor", "Fair", "Good", "Great!", "Excellent!"];
 
 starButtons.forEach((star) => {
     star.addEventListener("click", () => {
         selectedStars = parseInt(star.dataset.value, 10);
         paintStars(selectedStars);
         if (starHintBadge) {
-            starHintBadge.textContent = `${selectedStars} / 5 Stars — ${starLabels[selectedStars - 1]}`;
+            starHintBadge.textContent = `${selectedStars} / 5 Stars - ${starLabels[selectedStars - 1]}`;
         }
     });
     star.addEventListener("mouseenter", () => {
         const val = parseInt(star.dataset.value, 10);
         paintStars(val);
         if (starHintBadge && selectedStars === 0) {
-            starHintBadge.textContent = `${val} / 5 Stars — ${starLabels[val - 1]}`;
+            starHintBadge.textContent = `${val} / 5 Stars - ${starLabels[val - 1]}`;
         }
     });
     star.addEventListener("mouseleave", () => {
         paintStars(selectedStars);
         if (starHintBadge) {
             starHintBadge.textContent = selectedStars > 0
-                ? `${selectedStars} / 5 Stars — ${starLabels[selectedStars - 1]}`
+                ? `${selectedStars} / 5 Stars - ${starLabels[selectedStars - 1]}`
                 : "Select a rating";
         }
     });
@@ -335,7 +335,7 @@ async function initFirebase() {
                     createdAt: serverTimestamp(),
                 });
 
-                showToast("Thank you! Your rating has been saved 🎉");
+                showToast("Thank you! Your rating has been saved");
 
                 // Send automatic Gmail notification via EmailJS if configured
                 if (
