@@ -1,6 +1,6 @@
 # QRosh
 
-**Professional QR Code Generator & Scanner** — Generate crisp, customizable QR codes or scan instantly from your camera and images.
+**QR Code Generator & Scanner** - Generate crisp, customizable QR codes or scan instantly from your camera and images.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
