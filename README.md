@@ -1,4 +1,4 @@
-# QRLens
+# QRosh
 
 **Professional QR Code Generator & Scanner** — Generate crisp, customizable QR codes or scan instantly from your camera and images.
 
