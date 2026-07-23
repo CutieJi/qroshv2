@@ -1,14 +1,14 @@
 export const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: "AIzaSyAReTYcfsqaWdK530yIMXTwf1zGI1qHDgs",
+  authDomain: "qrosh-531fc.firebaseapp.com",
+  projectId: "qrosh-531fc",
+  storageBucket: "qrosh-531fc.firebasestorage.app",
+  messagingSenderId: "255847259191",
+  appId: "1:255847259191:web:279192cf616c0b8f8df3b2"
 };
 
 export const emailConfig = {
-  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+  serviceId: "service_ukguwrq",
+  templateId: "template_ydf142b",
+  publicKey: "nhWEAxUHpKMVjNrl2"
 };
