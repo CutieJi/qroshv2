@@ -102,7 +102,7 @@ generateBtn.addEventListener("click", () => {
 downloadBtn.addEventListener("click", () => {
     if (!currentQrCanvas) return;
     const link = document.createElement("a");
-    link.download = "qrlens-code.png";
+    link.download = "qrosh-code.png";
     link.href = currentQrCanvas.toDataURL("image/png");
     link.click();
     showToast("Downloaded QR Code image 📸");
